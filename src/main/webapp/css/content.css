@@ -1,0 +1,24 @@
+.content {
+    overflow: auto;
+    position: relative;
+}
+
+.content:before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: -1;
+
+    display: block;
+    background-image: url('https://hdwallsource.com/img/2015/10/soccer-wallpaper-46101-47400-hd-wallpapers.jpg');
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
