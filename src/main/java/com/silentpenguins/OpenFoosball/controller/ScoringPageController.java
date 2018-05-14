@@ -11,6 +11,9 @@ import java.util.Vector;
 public class ScoringPageController {
     @RequestMapping("/scoring")
     public String showScoring(Map<String, Object> model) {
+
+        //TODO setowanie z bazy
+
         Vector<AwardedPoints> pointsVector = new Vector<>();
         AwardedPoints trainingPoints = new AwardedPoints();
         trainingPoints.setId(1);
@@ -33,13 +36,6 @@ public class ScoringPageController {
 
         model.put("pointsVector", pointsVector);
 
-        /*Integer trainingPoints = 0;
-        Integer regularPoints = 1;
-        Integer tournamentPoints = 3;
-        model.put("trainingPoints", trainingPoints);
-        model.put("regularPoints", regularPoints);
-        model.put("tournamentPoints", tournamentPoints);
-        */
         return "scoring";
     }
 

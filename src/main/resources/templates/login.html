@@ -16,8 +16,9 @@
     <title>OpenFossball</title>
 </head>
 
-<body style="padding-top: 40px;">
+<body ng-app="mymodal" style="padding-top: 40px;">
 <div class="content">
+    <div ng-controller="MainCtrl">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="/login">OpenFoosball Login Page</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -43,34 +44,38 @@
                     <input type="password" placeholder="Password" name="password" width="100%"/>
                 </div>
             </div>
-            <div class="row">
-                <div th:if="${param.logout}">
-                    <div th:fragment="alert (type, message)" class="alert alert-dismissable"
-                         th:classappend="'alert-danger'">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                        </button>
-                        <span th:text="'You have been logged out.'"></span>
-                    </div>
-                </div>
-                <div th:if="${param.error}">
-                    <div th:fragment="alert (type, message)" class="alert alert-dismissable"
-                         th:classappend="'alert-danger'">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                        </button>
-                        <span th:text="'Invalid username and/or  password.'"></span>
-                    </div>
-                </div>
-            </div>
-
             <div class="control-group">
                 <!-- Button -->
                 <div class="controls">
                     <button class="btn btn-success">Login</button>
                 </div>
             </div>
-
         </div>
     </form>
+
+        <div th:if="${param.logout}">
+            <modal id="logoutModal" visible="true">
+                <form role="form">
+                    <div th:fragment="alert (type, message)" class="alert alert-dismissable"
+                         th:classappend="'alert-danger'">
+                        <span th:text="'You have been logged out.'"></span>
+                    </div>
+                </form>
+            </modal>
+        </div>
+
+        <div th:if="${param.error}">
+            <modal id="badCredentialsModal" visible="true">
+                <form role="form">
+                    <div th:fragment="alert (type, message)" class="alert alert-dismissable"
+                         th:classappend="'alert-danger'">
+                        <span th:text="'Invalid username and/or password.'"></span>
+                    </div>
+                </form>
+            </modal>
+        </div>
+
+
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <br><br><br><br><br><br><br><br><br><br><br>
     <!-- TODO Stupidest part ^^^^^^ ever check to do how to avoid it xD-->
@@ -78,6 +83,57 @@
     <!-- Footer -->
     <div th:include="footer"></div>
     <!-- Footer --->
+    </div>
 </div>
+<script>
+    var mymodal = angular.module('mymodal', []);
+
+    mymodal.controller('MainCtrl', function ($scope) {
+        $scope.modalTitle = "Warning";
+
+    });
+
+    mymodal.directive('modal', function () {
+        return {
+            template: '<div class="modal fade">' +
+            '<div class="modal-dialog">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<h4 class="modal-title">{{ modalTitle }}</h4>' +
+            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+            '</div>' +
+            '<div class="modal-body" ng-transclude></div>' +
+            '</div>' +
+            '</div>' +
+            '</div>',
+            restrict: 'E',
+            transclude: true,
+            replace: true,
+            scope: true,
+            link: function postLink(scope, element, attrs) {
+                scope.title = attrs.title;
+
+                scope.$watch(attrs.visible, function (value) {
+                    if (value == true)
+                        $(element).modal('show');
+                    else
+                        $(element).modal('hide');
+                });
+
+                $(element).on('shown.bs.modal', function () {
+                    scope.$apply(function () {
+                        scope.$parent[attrs.visible] = true;
+                    });
+                });
+
+                $(element).on('hidden.bs.modal', function () {
+                    scope.$apply(function () {
+                        scope.$parent[attrs.visible] = false;
+                    });
+                });
+            }
+        };
+    });
+</script>
 </body>
 </html>

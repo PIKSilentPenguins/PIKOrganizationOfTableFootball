@@ -15,9 +15,9 @@
     <script src="/webjars/bootstrap/4.1.0/js/bootstrap.js"></script>
     <title>OpenFossball</title>
 </head>
-<body ng-app="mymodal" style="padding-top: 40px">
+<body ng-app="myHomeModal" style="padding-top: 40px">
 <div class="content">
-<div ng-controller="MainCtrl">
+<div ng-controller="homeController">
     <!-- Navigation -->
     <div th:include="navbar"></div>
     <!-- Navigation --->
@@ -114,9 +114,9 @@
     <!-- Footer --->
 </div></div>
 <script>
-    var mymodal = angular.module('mymodal', []);
+    var myHomeModal = angular.module('myHomeModal', []);
 
-    mymodal.controller('MainCtrl', function ($scope) {
+    myHomeModal.controller('homeController', function ($scope) {
         $scope.image = "/img/fossball.jpg";
         $scope.showModal = false;
         $scope.toggleModal = function () {
@@ -124,7 +124,7 @@
         };
     });
 
-    mymodal.directive('modal', function () {
+    myHomeModal.directive('modal', function () {
         return {
             template: '<div class="modal fade">' +
             '<div class="modal-dialog">' +

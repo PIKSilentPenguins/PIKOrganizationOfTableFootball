@@ -13,6 +13,7 @@ public class RankingController {
     @RequestMapping("/ranking")
     public String showRanking(Map<String, Object> model) {
         Vector<Player> playerVector = new Vector<>();
+        //TODO trzeba pobrać z bazy danych playerów i posortować i ch po punktach. i to wrzucić do playerVector.
         for(int i =0 ; i< 10 ; ++i){
             Player player1 = new Player();
 

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-resource.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-route.js"></script>
+    <link th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/webjars/select2/select2.css}" rel="stylesheet" media="screen"/>
+
+    <link href="/css/content.css" th:href="@{/css/content.css}" rel="stylesheet" media="screen"/>
+    <title>OpenFossball</title>
+</head>
+<body ng-app="mymodal" style="padding-top: 40px">
+<div class="content">
+    <div ng-controller="MainCtrl">
+        <!-- Navigation -->
+        <div th:include="navbar"></div>
+        <!-- Navigation --->
+
+        <div class="container">
+
+            <!-- Page Content -->
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <!--TODO Dodać Paginację.-->
+                    <div th:each="match: ${matchVector}">
+                        <div th:class="'card text-white mt-4'"
+                             th:classappend="${match.isWin()} ? 'bg-success' : 'bg-danger'">
+                            <div class="card-header text-center">
+                                <h2 th:text="'Match '+${match.getId()}"></h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 class="card-title">Left Team</h3>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h3 class="card-title float-right">Right Team</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <div class="col text-left">
+                                                <h4 id="select_player_one_left_team"
+                                                    th:text="${match.getLeftTeam().get(0)}">
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col text-left">
+                                                <h4 id="select_player_two_left_team"
+                                                    th:text="${match.getLeftTeam().get(1)}">
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1 text-center">
+                                        <h2 class="card-text float-center" th:text="${match.getLeftScore()}"></h2>
+                                    </div>
+
+                                    <div class="col-md-1 text-center">
+                                        <h2 class="card-text float-center" th:text="${match.getRightScore()}"></h2>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <div class="col text-right">
+                                                <h4 id="select_player_one_right_team"
+                                                    th:text="${match.getRightTeam().get(0)}">
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col text-right">
+                                                <h4 id="select_player_two_right_team"
+                                                    th:text="${match.getRightTeam().get(1)}">
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 text-center">
+                                    <h3 th:text="'Type of Match: '+${match.getType()}"></h3>
+                                </div>
+
+                                <!--TODO to napewno nie powinno być tak robione :)-->
+                                <form th:href="@{/match_requests(acceppt=${match.getId()})}">
+                                    <div class="col-md-12 text-right">
+                                        <button class="btn btn-info" th:text="'Accept'"></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col-lg-9 -->
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+        <!-- Footer -->
+        <div th:include="footer"></div>
+        <!-- Footer --->
+
+    </div>
+</div>
+<script>
+
+    var mymodal = angular.module('mymodal', []);
+
+
+    mymodal.controller('MainCtrl', function ($scope) {
+
+    });
+
+</script>
+</body>
+</html>

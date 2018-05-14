@@ -12,6 +12,8 @@ public class PlayerListPageController {
 
     @RequestMapping("/player_list")
     public String showPlayerList(Map<String, Object> model) {
+
+        //TODO setowanie z bazy do playerVector. Należy posortować po username. :)
         Vector<Player> playerVector = new Vector<>();
         for(int i =0 ; i< 10 ; ++i){
             Player player1 = new Player();

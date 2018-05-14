@@ -85,9 +85,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 text-center">
                                     <div th:if="${(param.player == null)}">
-                                        <form th:action="@{/new_match(player=${player.getUserName()})}" method="post">
+                                        <form th:action="@{/match_history}" method="post">
 
                                             <button id="match_history" class="btn btn-info float-center">Match History
                                             </button>
@@ -95,9 +95,9 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 text-center">
                                     <div th:if="${(param.player == null)}">
-                                        <form th:action="@{/new_match(player=${player.getUserName()})}" method="post">
+                                        <form th:action="@{/match_requests}" method="post">
 
                                             <button id="my_match_requests" class="btn btn-info float-center">My Match
                                                 Requests
