@@ -3,6 +3,7 @@ package com.silentpenguins.OpenFoosball.pojo;
 import java.sql.Blob;
 
 public class Player {
+    private Integer id;
     private String userName;
     private Blob profileImage;
     private String firstName;
@@ -13,6 +14,7 @@ public class Player {
     private String description;
 
     public Player(){
+        setId(1);
         setUserName("Marcin Puc");
         setFirstName("Marcin");
         setLastName("Puc");
@@ -116,5 +118,13 @@ public class Player {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
