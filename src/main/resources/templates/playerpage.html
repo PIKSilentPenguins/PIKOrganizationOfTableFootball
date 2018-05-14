@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-resource.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-route.js"></script>
+    <link href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.js"></script>
+    <link href="/css/content.css" th:href="@{/css/content.css}" rel="stylesheet" media="screen"/>
+    <title>OpenFossball</title>
+</head>
+<body ng-app="mymodal" style="padding-top: 40px">
+<div class="content">
+    <div ng-controller="MainCtrl">
+        <!-- Navigation -->
+        <div th:include="navbar"></div>
+        <!-- Navigation --->
+
+        <div class="container">
+
+            <!-- Page Content -->
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="row">
+                        <h1 class="my-4 text-white" th:text="${player.getUserName()}"></h1>
+                    </div>
+                    <div class="row">
+                        <img ng-src="" style="width: 150px; height: 150px">
+                    </div>
+                </div>
+                <!-- /.col-lg-3 -->
+
+                <div class="col-lg-9">
+
+                    <div class="card bg-dark text-white mt-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <h3 class="card-title"
+                                        th:text="${player.getFirstName()} + ' ' + ${player.getLastName()}"></h3>
+                                </div>
+                                <div class="col-md-3">
+                                    <div th:if="${(param.player != null)}">
+                                        <form th:action="@{/new_match(player=${param.player})}" method="post">
+
+                                            <button class="btn btn-info float-right">Request
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Wins:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <p th:text="${player.getWins()}"></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Points:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <p th:text="${player.getPoints()}"></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Matches:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <p th:text="${player.getMatches()}"></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Wining Percentage:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    {{profileWiningPercentage}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <div th:if="${(param.player == null)}">
+                                        <form th:action="@{/match_history}" method="post">
+
+                                            <button id="match_history" class="btn btn-info float-center">Match History
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <div th:if="${(param.player == null)}">
+                                        <form th:action="@{/match_requests}" method="post">
+
+                                            <button id="my_match_requests" class="btn btn-info float-center">My Match
+                                                Requests
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col-lg-9 -->
+        </div>
+
+        <br>
+
+
+        <!-- /.container -->
+
+        <!-- Footer -->
+        <div th:include="footer"></div>
+        <!-- Footer --->
+    </div>
+</div>
+<script th:inline="javascript">
+
+    var player_wins = [[${player.getWins()}]];
+    var player_matches = [[${player.getMatches()}]];
+
+</script>
+<script>
+    var mymodal = angular.module('mymodal', []);
+
+    mymodal.controller('MainCtrl', function ($scope) {
+        $scope.profileImage = "";
+        $scope.profileWiningPercentage = player_wins / player_matches * 100 + " %";
+    });
+
+
+</script>
+</body>
+</html>

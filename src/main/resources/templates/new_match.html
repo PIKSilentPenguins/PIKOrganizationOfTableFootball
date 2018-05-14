@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/webjars/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-resource.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-route.js"></script>
+    <link th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/webjars/select2/select2.css}" rel="stylesheet" media="screen"/>
+
+    <script src="webjars/bower/select2/4.0.3/select2.js" type="text/javascript"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.js"></script>
+    <link href="/css/content.css" th:href="@{/css/content.css}" rel="stylesheet" media="screen"/>
+    <title>OpenFossball</title>
+</head>
+<body ng-app="mymodal" style="padding-top: 40px">
+<div class="content">
+    <div ng-controller="MainCtrl">
+        <!-- Navigation -->
+        <div th:include="navbar"></div>
+        <!-- Navigation --->
+
+        <div class="container">
+
+            <!-- Page Content -->
+            <div class="row">
+
+                <div class="col-lg-12">
+
+                    <div class="card bg-dark text-white mt-4">
+                        <div class="card-header text-center">
+                            <h2>New Match</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="card-title">Your Team</h3>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="card-title float-right">Opponent Team</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <label for='select_player_one_your_team' class="card-text">Player 1:</label>
+                                        <br>
+                                        <select id='select_player_one_your_team' name="state">
+                                            <option value="AL">Alabama</option>
+                                            ...
+                                            <option value="WY">Wyoming</option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <label for='select_player_two_your_team' class="card-text">Player 2:</label>
+                                        <br>
+                                        <select id='select_player_two_your_team' name="state">
+                                            <option value="AL">Test2</option>
+                                            ...
+                                            <option value="WY">Elo</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <h3 class="card-text float-center">Two Input Boxes here</h3>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <label for='select_player_one_opponent_team' class="card-text float-right">Player
+                                            1:</label>
+                                        <br>
+                                        <select id='select_player_one_opponent_team' class="float-right" name="state">
+                                            <option value="AL">Alabama</option>
+                                            ...
+                                            <option value="WY">Wyoming</option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <label for='select_player_two_opponent_team' class="card-text">Player 2:</label>
+                                        <br>
+                                        <select id='select_player_two_opponent_team' name="state">
+                                            <option value="AL">Test2</option>
+                                            ...
+                                            <option value="WY">Elo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <form>
+                                <label class="radio"><input type="radio" name="optradio"
+                                                            id="radioButton_tournamentMatch">Tournament Match</label>
+                                <label class="radio"><input type="radio" name="optradio"
+                                                            id="radioButton_regularMatch">Regular Match</label>
+                                <label class="radio"><input type="radio" name="optradio"
+                                                            id="radioButton_trainingMatch">Training Match</label>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col-lg-9 -->
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+        <!-- Footer -->
+        <div th:include="footer"></div>
+        <!-- Footer --->
+
+    </div>
+</div>
+<script type="text/javascript">
+/*    $(document).ready(function () {
+        $("#select_player_one_your_team").select2({
+            placeholder: "Select a project..."
+        })
+            .on("change", function (e) {
+                angular.element(document.getElementById("MainCtrl")).scope().testfunction();
+            });
+    });*/
+</script>
+<script>
+
+    var mymodal = angular.module('mymodal', []);
+
+
+    mymodal.controller('MainCtrl', function ($scope) {
+
+    });
+
+</script>
+</body>
+</html>

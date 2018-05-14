@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-resource.js"></script>
+    <script src="/webjars/angularjs/1.6.9/angular-route.js"></script>
+    <link href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link href="/css/content.css" th:href="@{/css/content.css}" rel="stylesheet" media="screen"/>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.js"></script>
+    <title>OpenFossball</title>
+</head>
+<body ng-app="mymodal" style="padding-top: 40px">
+
+<div class="content"><div ng-controller="MainCtrl">
+    <!-- Navigation -->
+    <div th:include="navbar"></div>
+    <!-- Navigation --->
+
+    <div class="container">
+
+        <!-- Page Content -->
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="card bg-dark text-white mt-4">
+                    <img class="card-img-top img-fluid" ng-src="{{ruleimage}}" alt="">
+                    <div class="card-body">
+                        <h3 class="card-title">Rules</h3>
+                        <h4>Basic rules</h4>
+                        <p class="card-text">The 6 basic foosball rules<br><br>
+
+                            - <b>Flip A Coin</b> - A coin flip decides who serves the foosball to start the foosball game. After the first goal is scored, the rule is that the team who was last scored on gets to serve the next ball. This rule keeps the game fair for both opponents. The foosball must be touched by a man before the ball goes into a goal for a legal goal to occur.<br>
+                            - <b>No Spinning</b> - A spin is a rule for when the rod completes a 360 degree rotation without touching the ball. This is deemed an illegal move in the rules of foosball.<br>
+
+                            - <b>No Jarring</b> - Jarring is a rule for when a player slams his or her rods against the wall of the foosball table in an attempt to distract or jar the foosball loose from the other player's possession. The rule is that there is no jarring allowed at any point during a game. This is not the same as when a player on the opposite team moves his or her foosball rods back and forth in an attempt to play defense. The key this rule is when a player hits the wall of the table with enough force to jar the ball or distract the opponent. That is why this is a subjective rule that may be called more strict by certain foosball player<br>
+
+                            - <b>Dead Balls</b> - If a foosball stops in the middle of two opposing team rods, the ball must be picked up and reserved. The serve goes back to the team that was last scored on. If a dead ball occurs on the defensive side of the table behind the defensive 2 bar, the defensive player must move the ball back into playing position. This rule is in place so players don't cause a dead ball on purpose in order to force a reserve.<br>
+                            - <b>Out of Play</b> - If a ball comes off the table area or hits a top rail and comes back into the table area, the ball is ruled out of play and must be reserved by the team that was last scored on.<br>
+                            - <b>5 Bar Passing</b> - These 5 bar passing rules are a little complex if you have never played tournament foosball. These passing rules do not apply to the other foosball rods, just the 5 bar. You are required to pass the ball within a 10 second time period from your 5 bar rod to the 3 bar rod directly after a serve. After the initial serve, you then are allowed 15 seconds to pass from the 5 bar. A ball cannot be completely stopped on the 5 bar and passed forward to the 3 bar, it must be moving and touch 2 men on the 5 bar before being advanced. Additionally, the ball can only touch the wall a total of 2 times in a row (before touching a man again on the 5 bar) before being advanced. However, it can touch the ball a 3rd time if it is part of the pass.</p>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col-lg-9 -->
+        </div>
+
+    </div>
+    <!-- /.container -->
+    <br>
+
+    <!-- Footer -->
+    <div th:include="footer"></div>
+    <!-- Footer --->
+
+</div></div>
+
+<script>
+    var mymodal = angular.module('mymodal', []);
+
+    mymodal.controller('MainCtrl', function ($scope) {
+        $scope.ruleimage = "/img/rule.png";
+    });
+
+</script>
+</body>
+</html>

@@ -1,1 +1,1 @@
-# OpenFoosball
+# PIKOrganizationOfTableFootball
