@@ -19,83 +19,70 @@
 <body ng-app="mymodal" style="padding-top: 40px">
 
 <div class="content">
-<div ng-controller="scoringCtrl">
-    <!-- Navigation -->
-    <div th:include="navbar"></div>
-    <!-- Navigation --->
+    <div ng-controller="scoringCtrl">
+        <!-- Navigation -->
+        <div th:include="navbar"></div>
+        <!-- Navigation --->
 
-    <div class="container">
+        <div class="container">
 
-        <!-- Page Content -->
-        <div class="row">
+            <!-- Page Content -->
+            <div class="row">
 
-            <div class="col-lg-12">
-                <div class="card bg-dark text-white mt-4">
-                    <img class="card-img-top img-fluid" ng-src="{{scoringImage}}" alt="scoringImage"
-                         title="scoringImage"/>
-                    <div class="card-body">
-                        <h3 class="card-title">Scoring</h3>
-                        <h4>Scoring in our company</h4>
-                        <p class="card-text">Marcin Puc defeated all opponents with his great game.
-                            He is an amazing player who won all matches this season. This is the rising star of
-                            our company, which will perform in the national table football championship.
-                            We wish him luck and we cheer for him during future tournaments.</p>
-                        <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
-                    </div>
-                </div>
-                <!-- /.card -->
-
-                <div class="card bg-dark text-white card-outline-secondary my-4">
-                    <div class="card-header">
-                        Tournament
-                        <img class="card-img-top img-fluid" ng-src="{{tournamentImage}}" alt="scoringImage"
+                <div class="col-lg-12">
+                    <div class="card bg-dark text-white mt-4">
+                        <img class="card-img-top img-fluid" ng-src="{{scoringImage}}" alt="scoringImage"
                              title="scoringImage"/>
+                        <div class="card-body">
+                            <h3 class="card-title">Scoring</h3>
+                            <h4>Scoring in our company</h4>
+                            <p class="card-text">Simple table which shows us how points are awarded to matches in our
+                                Company :)</p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p>Tournament Match - Play for the highest value, points {{tournamentPoints}}</p>
-                        <hr>
+                    <!-- /.card -->
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-dark">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Points</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="points,iter : ${pointsVector}">
+                                        <td>
+                                            <div th:text="${iter.index+1} + 'Tu będzie jakiś mały obrazek jeśli będziemy chcieli'"></div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${points.getName()}"></div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${points.getPoints()}"></div>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+
+
+                    <!-- /.card -->
                 </div>
-
-
-                <div class="card bg-dark text-white card-outline-secondary my-4">
-                    <div class="card-header">
-                        Regular
-                        <img class="card-img-top img-fluid" ng-src="{{regularImage}}" alt="scoringImage"
-                             title="scoringImage"/>
-                    </div>
-
-                    <div class="card-body">
-                        <p>Regular Match - Just normal match, points {{regularPoints}}</p>
-                        <hr>
-                    </div>
-                </div>
-
-
-                <div class="card bg-dark text-white card-outline-secondary my-4">
-                    <div class="card-header">
-                        Training
-                        <img class="card-img-top img-fluid" ng-src="{{trainingImage}}" alt="scoringImage"
-                             title="scoringImage"/>
-                    </div>
-                    <div class="card-body">
-                        <p>Training match - just the game, points: {{trainingPoints}}</p>
-                        <hr>
-                    </div>
-                </div>
-
-                <!-- /.card -->
+                <!-- /.col-lg-9 -->
             </div>
-            <!-- /.col-lg-9 -->
+
         </div>
+        <!-- /.container -->
 
+        <!-- Footer -->
+        <div th:include="footer"></div>
+        <!-- Footer --->
     </div>
-    <!-- /.container -->
-
-    <!-- Footer -->
-    <div th:include="footer"></div>
-    <!-- Footer --->
-</div>
 </div>
 <script>
     var mymodal = angular.module('mymodal', []);
@@ -103,11 +90,8 @@
     mymodal.controller('scoringCtrl', function ($scope) {
         $scope.scoringImage = '/img/scoring_points.jpg';
         $scope.tournamentImage = '/img/trophy.jpg';
-        $scope.regularImage = '/img/regular.png' ;
-        $scope.trainingImage = '/img/training.jpg' ;
-        $scope.trainingPoints = [[${trainingPoints}]];
-        $scope.regularPoints= [[${regularPoints}]];
-        $scope.tournamentPoints = [[${tournamentPoints}]];
+        $scope.regularImage = '/img/regular.png';
+        $scope.trainingImage = '/img/training.jpg';
     });
 
 </script>

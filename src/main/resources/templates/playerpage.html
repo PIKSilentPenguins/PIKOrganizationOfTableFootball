@@ -85,20 +85,25 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3">
-                                    <label for="description">Description:</label>
-                                </div>
-                                <div class="col-md-9">
-                                    <div th:if="${(param.player != null)}">
-                                    <textarea disabled class="form-control" rows="26" id="description"
-                                              style="width: 100%" th:text="${player.getDescription()}">
-                                    </textarea>
-                                    </div>
+                                <div class="col-md-6">
                                     <div th:if="${(param.player == null)}">
-                                    <textarea class="form-control" rows="26" id="description"
-                                              style="width: 100%" th:text="${player.getDescription()}">
+                                        <form th:action="@{/new_match(player=${player.getUserName()})}" method="post">
 
-                                    </textarea>
+                                            <button id="match_history" class="btn btn-info float-center">Match History
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div th:if="${(param.player == null)}">
+                                        <form th:action="@{/new_match(player=${player.getUserName()})}" method="post">
+
+                                            <button id="my_match_requests" class="btn btn-info float-center">My Match
+                                                Requests
+                                            </button>
+
+                                        </form>
                                     </div>
                                 </div>
                             </div>

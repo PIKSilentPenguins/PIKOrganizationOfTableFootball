@@ -22,7 +22,6 @@ public class NewMatchController {
             requested_player.setMatches(21);
             requested_player.setUserName(requestedPlayerUsername);
             requested_player.setPoints(20);
-            requested_player.setDescription("Idiot");
             model.put("requested_player", requested_player);
 
             //TODO zmodyfikować, żeby to było setowane z bazy w zależności od username :)

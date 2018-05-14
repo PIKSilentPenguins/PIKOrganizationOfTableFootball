@@ -28,7 +28,6 @@ public class PlayerPageController {
             requested_player.setMatches(4);
             requested_player.setUserName(requestedPlayerUsername);
             requested_player.setPoints(0);
-            requested_player.setDescription("ELOELOELOELO_TEST_ELO");
             //TODO zmodyfikować, żeby to było setowane z bazy w zależności od username :)
         }
         else
