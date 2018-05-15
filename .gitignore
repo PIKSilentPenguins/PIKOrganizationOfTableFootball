@@ -2,7 +2,7 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
-./gradle/caches/**
+./gradle/caches/*
 
 ### STS ###
 #.apt_generated
@@ -30,3 +30,6 @@
 #/dist/
 #/nbdist/
 #/.nb-gradle/
+
+logs/*
+!logs/.gitkeep

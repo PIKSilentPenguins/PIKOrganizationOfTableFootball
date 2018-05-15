@@ -93,7 +93,7 @@
                                 </div>
 
                                 <!--TODO możliwe, że nie href tylko action :)-->
-                                <form th:href="@{/match_requests/accept_request(acceppt=${match.getId()})}">
+                                <form th:action="@{|/match_requests/accept_request/${match.getId()}|}">
                                     <div class="col-md-12 text-right">
                                         <button class="btn btn-info" th:text="'Accept'"></button>
                                     </div>

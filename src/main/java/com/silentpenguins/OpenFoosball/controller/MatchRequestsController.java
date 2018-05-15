@@ -6,30 +6,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
-
+@RequestMapping("/match_requests")
 public class MatchRequestsController {
+    private static final Logger logger = Logger.getLogger(MatchRequestsController.class.getName());
 
     Vector<Match> matchVector = new Vector<>();
 
-    @RequestMapping("/match_requests")
+    @GetMapping("")
+    @PostMapping("")
     public String showMatchRequests(Map<String, Object> model) {
 
+        System.out.println("ELO SHHOW MATCH REQUESTS");
+        matchVector.clear();
 
         //TODO setowanie z bazy do matchVector. Należy wybrać tylko zalogowanego Usera - pewnie będzie Autowirowany :)
         //TODO get z bazy taki, by Match był do akceptacji. W przypadku parametru trzeba będzie dodać setowanie na bazie
         //TODO parametru, że już został zaakceptowany, wydaje mi sie, że nie powinno wgle to być tak robione, ale chwilowo
         //TODO niech będzie tak. - pewnie tak jak tu: https://spring.io/guides/tutorials/bookmarks/
 
-        for(int i =0 ; i< 10 ; ++i){
+        for(int i = 9 ; i>= 0 ; --i){
             Match match1 = new Match();
-            match1.setId(1+i*4); // Niech będzie setowany z bazy.
+            match1.setId(4+i*4); // Niech będzie setowany z bazy.
 
             Match match2 = new Match();
-            match2.setId(2+i*4);
+            match2.setId(3+i*4);
             match2.setWin(true);
             match2.setType("Tournament Match");
             match2.setLeftScore(5);
@@ -38,7 +46,7 @@ public class MatchRequestsController {
             match2.setRightTeam("Wasiollo,Pointer");
 
             Match match3 = new Match();
-            match3.setId(3+i*4);
+            match3.setId(2+i*4);
             match3.setWin(false);
             match3.setType("Regular Match");
             match3.setLeftScore(3);
@@ -47,7 +55,7 @@ public class MatchRequestsController {
             match3.setRightTeam("Wasiollo,Marcin Puc");
 
             Match match4 = new Match();
-            match4.setId(4+i*4);
+            match4.setId(1+i*4);
             match4.setWin(true);
             match4.setType("Tournament Match");
             match4.setLeftScore(1);
@@ -61,18 +69,20 @@ public class MatchRequestsController {
             matchVector.add(match3);
             matchVector.add(match4);
         }
+        logger.log(Level.INFO, "match_request.html visited"); // TODO jakieś inne logi.
 
         model.put("matchVector", matchVector);
 
         return "match_requests";
     }
 
-    @GetMapping("/match_requests/accept_request")
-    public String add(Map<String, Object> model, @RequestParam(value="acceppt", required=false) String accepptedMatch) {
-        System.out.println(accepptedMatch);
-        if (accepptedMatch != null) {
-            matchVector.remove(new Integer(accepptedMatch) - 1);
-            System.out.println(new Integer(accepptedMatch) - 1);
+    @GetMapping("/accept_request/{acceptedMatch}")
+    public String acceptMatch(Map<String, Object> model, HttpServletRequest req, @PathVariable String acceptedMatch) {
+        System.out.println(acceptedMatch);
+
+        if (acceptedMatch != null) {
+            matchVector.removeIf(match -> Objects.equals(match.getId(), new Integer(acceptedMatch)));
+            System.out.println(matchVector.size());
         }
         model.put("matchVector", matchVector);
         return "match_requests";
