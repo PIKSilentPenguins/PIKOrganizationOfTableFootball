@@ -1,25 +1,29 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 import com.silentpenguins.OpenFoosball.pojo.Match;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 import java.util.Vector;
 
 @Controller
+
 public class MatchRequestsController {
 
+    Vector<Match> matchVector = new Vector<>();
+
     @RequestMapping("/match_requests")
-    public String showMatchRequests(Map<String, Object> model, @RequestParam(value="acceppt", required=false) String accepptedMatch) {
+    public String showMatchRequests(Map<String, Object> model) {
 
 
         //TODO setowanie z bazy do matchVector. Należy wybrać tylko zalogowanego Usera - pewnie będzie Autowirowany :)
         //TODO get z bazy taki, by Match był do akceptacji. W przypadku parametru trzeba będzie dodać setowanie na bazie
         //TODO parametru, że już został zaakceptowany, wydaje mi sie, że nie powinno wgle to być tak robione, ale chwilowo
         //TODO niech będzie tak. - pewnie tak jak tu: https://spring.io/guides/tutorials/bookmarks/
-        Vector<Match> matchVector = new Vector<>();
+
         for(int i =0 ; i< 10 ; ++i){
             Match match1 = new Match();
             match1.setId(1+i*4); // Niech będzie setowany z bazy.
@@ -57,12 +61,20 @@ public class MatchRequestsController {
             matchVector.add(match3);
             matchVector.add(match4);
         }
-        if(accepptedMatch!=null) {
+
+        model.put("matchVector", matchVector);
+
+        return "match_requests";
+    }
+
+    @GetMapping("/match_requests/accept_request")
+    public String add(Map<String, Object> model, @RequestParam(value="acceppt", required=false) String accepptedMatch) {
+        System.out.println(accepptedMatch);
+        if (accepptedMatch != null) {
             matchVector.remove(new Integer(accepptedMatch) - 1);
             System.out.println(new Integer(accepptedMatch) - 1);
         }
         model.put("matchVector", matchVector);
-
         return "match_requests";
     }
 }

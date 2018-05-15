@@ -92,8 +92,8 @@
                                     <h3 th:text="'Type of Match: '+${match.getType()}"></h3>
                                 </div>
 
-                                <!--TODO to napewno nie powinno być tak robione :)-->
-                                <form th:href="@{/match_requests(acceppt=${match.getId()})}">
+                                <!--TODO możliwe, że nie href tylko action :)-->
+                                <form th:href="@{/match_requests/accept_request(acceppt=${match.getId()})}">
                                     <div class="col-md-12 text-right">
                                         <button class="btn btn-info" th:text="'Accept'"></button>
                                     </div>
