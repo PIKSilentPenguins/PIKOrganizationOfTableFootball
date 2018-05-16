@@ -1,6 +1,8 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 import com.silentpenguins.OpenFoosball.pojo.Player;
+import com.silentpenguins.OpenFoosball.service.PlayerPageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,9 @@ import java.util.Map;
 @Controller
 public class PlayerPageController {
 
+    @Autowired
+    PlayerPageService playerPageService;
+
     @Value("${welcome.message:test}")
     private String message = "Hello World";
 
@@ -20,6 +25,7 @@ public class PlayerPageController {
         Player logged_player = new Player();
         model.put("message", this.message);
 
+        /*
         Player requested_player = new Player();
         if (requestedPlayerUsername != null){
             requested_player.setFirstName("Mateusz");
@@ -33,9 +39,16 @@ public class PlayerPageController {
         else
             requested_player = logged_player;
 
+        */
+        Player requested_player = this.playerPageService.getPlayerByName(requestedPlayerUsername);
+
+
         model.put("player", requested_player);
         return "playerpage";
+
+
     }
+
 
 }
 

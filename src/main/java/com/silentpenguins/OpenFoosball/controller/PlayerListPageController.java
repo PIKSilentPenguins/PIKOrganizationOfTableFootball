@@ -1,6 +1,8 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 import com.silentpenguins.OpenFoosball.pojo.Player;
+import com.silentpenguins.OpenFoosball.service.PlayerListPageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,9 +12,13 @@ import java.util.Vector;
 @Controller
 public class PlayerListPageController {
 
+    @Autowired
+    PlayerListPageService playerListPageService;
+
     @RequestMapping("/player_list")
     public String showPlayerList(Map<String, Object> model) {
 
+        /*
         //TODO setowanie z bazy do playerVector. Należy posortować po username. :)
         Vector<Player> playerVector = new Vector<>();
         for(int i =0 ; i< 10 ; ++i){
@@ -43,6 +49,11 @@ public class PlayerListPageController {
             playerVector.add(player4);
         }
         model.put("playerVector", playerVector);
+        */
+
+        Vector<Player> playerVector = playerListPageService.getAllPlayersOrderByUserName();
+        model.put("playerVector", playerVector);
+
 
         return "player_list";
     }

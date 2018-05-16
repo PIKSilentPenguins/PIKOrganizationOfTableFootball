@@ -1,9 +1,15 @@
 package com.silentpenguins.OpenFoosball.pojo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.sql.Blob;
 
+@Entity
 public class Player {
     private Integer id;
+    @Id
     private String userName;
     private Blob profileImage;
     private String firstName;
@@ -20,6 +26,16 @@ public class Player {
         setWins(100);
         setMatches(300);
         setPoints(170);
+    }
+
+    public Player( String userName, Blob profileImage, String firstName, String lastName, Integer wins, Integer matches, Integer points) {
+        this.userName = userName;
+        this.profileImage = profileImage;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.wins = wins;
+        this.matches = matches;
+        this.points = points;
     }
 
     public Blob getProfileImage() {

@@ -1,6 +1,8 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 import com.silentpenguins.OpenFoosball.pojo.Player;
+import com.silentpenguins.OpenFoosball.service.RankingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,9 +12,12 @@ import java.util.Vector;
 @Controller
 public class RankingController {
 
+    @Autowired
+    RankingService rankingService;
+
     @RequestMapping("/ranking")
     public String showRanking(Map<String, Object> model) {
-        Vector<Player> playerVector = new Vector<>();
+        /*Vector<Player> playerVector = new Vector<>();
         //TODO trzeba pobrać z bazy danych playerów i posortować i ch po punktach. i to wrzucić do playerVector.
         for(int i =0 ; i< 10 ; ++i){
             Player player1 = new Player();
@@ -50,7 +55,9 @@ public class RankingController {
             playerVector.add(player3);
             playerVector.add(player4);
         }
-        model.put("playerVector", playerVector);
+        model.put("playerVector", playerVector);*/
+
+        model.put("playerVector", rankingService.getAllOrederByPoints());
 
         return "ranking";
     }

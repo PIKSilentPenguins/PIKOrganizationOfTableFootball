@@ -1,6 +1,8 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 import com.silentpenguins.OpenFoosball.pojo.AwardedPoints;
+import com.silentpenguins.OpenFoosball.service.ScoringPageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,11 +11,15 @@ import java.util.Vector;
 
 @Controller
 public class ScoringPageController {
+
+    @Autowired
+    ScoringPageService scoringPageService;
+
     @RequestMapping("/scoring")
     public String showScoring(Map<String, Object> model) {
 
         //TODO setowanie z bazy
-
+        /*
         Vector<AwardedPoints> pointsVector = new Vector<>();
         AwardedPoints trainingPoints = new AwardedPoints();
         trainingPoints.setId(1);
@@ -32,9 +38,9 @@ public class ScoringPageController {
 
         pointsVector.add(trainingPoints);
         pointsVector.add(regularPoints);
-        pointsVector.add(tournamentPoints);
+        pointsVector.add(tournamentPoints);*/
 
-        model.put("pointsVector", pointsVector);
+        model.put("pointsVector", scoringPageService.getAllAwardedPoints());
 
         return "scoring";
     }

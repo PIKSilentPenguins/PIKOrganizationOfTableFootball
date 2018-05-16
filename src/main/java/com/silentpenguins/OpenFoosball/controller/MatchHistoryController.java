@@ -1,6 +1,9 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 import com.silentpenguins.OpenFoosball.pojo.Match;
+import com.silentpenguins.OpenFoosball.pojo.Player;
+import com.silentpenguins.OpenFoosball.service.MatchHistoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,11 +13,14 @@ import java.util.Vector;
 @Controller
 public class MatchHistoryController {
 
+    @Autowired
+    MatchHistoryService matchHistoryService;
+
     @RequestMapping("/match_history")
     public String showMatchHistory(Map<String, Object> model) {
 
         //TODO setowanie z bazy do matchVector. Należy wybrać tylko zalogowanego Usera - pewnie będzie Autowirowany :)
-        Vector<Match> matchVector = new Vector<>();
+        /*Vector<Match> matchVector = new Vector<>();
         for(int i =0 ; i< 10 ; ++i){
             Match match1 = new Match();
             match1.setId(1+i*4); // Niech będzie setowany z bazy.
@@ -52,7 +58,12 @@ public class MatchHistoryController {
             matchVector.add(match3);
             matchVector.add(match4);
         }
-        model.put("matchVector", matchVector);
+        model.put("matchVector", matchVector);*/
+
+        Player loggedPlayer = new Player(); //TODO wyciagnac zalogowanego gracza ale nie wiem jak ;)
+        model.put("matchVector", matchHistoryService.getAllMatchesByUserName(loggedPlayer.getUserName()));
+
+
 
         return "match_history";
     }
