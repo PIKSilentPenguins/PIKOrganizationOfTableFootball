@@ -10,6 +10,7 @@ public class Match {
     private Vector<String> rightTeam;
     private String type;
     private Boolean win; //Easier to handle on frontend :)
+    private Boolean inRightTeam;
 
     public Match(){
         setId(1);
@@ -19,6 +20,7 @@ public class Match {
         setWin(true);
         setLeftTeam("MPUC,Marcin Puc");
         setRightTeam("Wasiollo,Pointerrr");
+        setInRightTeam(true);
 
     }
 
@@ -85,5 +87,13 @@ public class Match {
 
     public void setWin(Boolean win) {
         this.win = win;
+    }
+
+    public Boolean isInRightTeam() {
+        return inRightTeam;
+    }
+
+    public void setInRightTeam(Boolean inRightTeam) {
+        this.inRightTeam = inRightTeam;
     }
 }
