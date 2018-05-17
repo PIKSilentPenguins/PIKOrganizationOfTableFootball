@@ -53,6 +53,7 @@ public class MatchRequestsController {
             match3.setRightScore(1);
             match3.setLeftTeam("Pointer,Tom Olek");
             match3.setRightTeam("Wasiollo,Marcin Puc");
+            match3.setLoggedInRightTeam(false);
 
             Match match4 = new Match();
             match4.setId(1+i*4);
@@ -62,12 +63,24 @@ public class MatchRequestsController {
             match4.setRightScore(7);
             match4.setLeftTeam("Rododendron,Tom Olek");
             match4.setRightTeam("Wasiollo,Marcin Puc");
+            match4.setLoggedInRightTeam(false);
+
+            Match match5 = new Match();
+            match5.setId(1+i*4);
+            match5.setWin(false);
+            match5.setType("Tournament Match");
+            match5.setLeftScore(1);
+            match5.setRightScore(7);
+            match5.setLeftTeam("Rododendron,Tom Olek");
+            match5.setRightTeam("Wasiollo,Marcin Puc");
+            match5.setLoggedInRightTeam(true);
 
 
             matchVector.add(match1);
             matchVector.add(match2);
             matchVector.add(match3);
             matchVector.add(match4);
+            matchVector.add(match5);
         }
         logger.log(Level.INFO, "match_request.html visited"); // TODO jakieś inne logi.
 
