@@ -1,15 +1,10 @@
 package com.silentpenguins.OpenFoosball.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.sql.Blob;
 
-@Entity
+
 public class Player {
     private Integer id;
-    @Id
     private String userName;
     private Blob profileImage;
     private String firstName;

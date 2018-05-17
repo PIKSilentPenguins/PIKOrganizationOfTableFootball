@@ -1,6 +1,7 @@
 package com.silentpenguins.OpenFoosball.service;
 
-import com.silentpenguins.OpenFoosball.dao.PlayerDao;
+import com.silentpenguins.OpenFoosball.dao.PersonDao;
+import com.silentpenguins.OpenFoosball.model.Person;
 import com.silentpenguins.OpenFoosball.pojo.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,15 +10,22 @@ import org.springframework.stereotype.Service;
 public class PlayerPageService {
 
     @Autowired
-    private PlayerDao playerDao;
+    private PersonDao personDao;
+
+    @Autowired
+    private  MappingPersonToPlayerService mappingPersonToPlayerService;
 
 
     public Player getPlayerByName(String userName){
 
         if( userName != null){
-            Player temp_player = this.playerDao.findByUserName(userName);
-            if (temp_player != null)
-                return temp_player;
+            Person person = this.personDao.findByUserName(userName);
+            if (person != null){
+
+                //Player player = modelMapper.map(person, Player.class);
+                //Player player = new Player(person.getUserName(),person.getProfileImage(), person.getFirstName(), person.getLastName(), person.getWins(), person.getMatches(), person.getPoints());
+                return  mappingPersonToPlayerService.map(person);
+            }
             else {
                 //TODO error
                 return new Player();

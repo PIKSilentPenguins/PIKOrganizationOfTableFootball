@@ -6,10 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Blob;
 
-@Entity
+
 public class AwardedPoints {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
     private Integer points;
     private String name;
