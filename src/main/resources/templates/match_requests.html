@@ -108,7 +108,7 @@
                                 </form>
                                 </div>
                                 <div th:if="@{${match.isLoggedInRightTeam()} == false}">
-                                    <form th:action="@{|/match_requests/cancel_request/${match.getId()}|}">
+                                    <form th:action="@{|/match_requests/accept_request/${match.getId()}|}">
                                         <div class="col-md-12 text-right">
                                             <button class="btn btn-warning text-white" th:text="'Cancel'"></button>
                                         </div>
