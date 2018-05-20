@@ -31,6 +31,7 @@ public class GameService {
 
     public Vector<Match> getMatchesToAccept(String userName){
         Vector<Match> matches = gameToMatch.convertVector(gameDao.findByRightTeam_UserNameAndConfirmed(userName, false));
+        matches.addAll(gameToMatch.convertVector(gameDao.findByLeftTeam_UserNameAndConfirmed(userName,true)));
         setMatchWin(matches, userName);
         return matches;
     }
@@ -46,12 +47,14 @@ public class GameService {
     public void setMatchWin(Vector<Match> matches, String userName) {
         matches.forEach((m) -> {
             if(m.getLeftTeam().contains(userName)){
+                m.setLoggedInRightTeam(false);
                 if(m.getRightScore()  < m.getLeftScore())
                     m.setWin(true);
                 else
                     m.setWin(false);
             }
             else {
+                m.setLoggedInRightTeam(true);
                 if(m.getRightScore()  < m.getLeftScore())
                     m.setWin(false);
                 else

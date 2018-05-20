@@ -18,7 +18,7 @@ public class Match {
     public Match() {
     }
 
-    public Match(Long id, Integer leftScore, Integer rightScore, Vector<String> leftTeam, Vector<String> rightTeam, String type, Boolean win, Boolean loggedInRightTeam) {
+    public Match(Long id, Integer leftScore, Integer rightScore, Vector<String> leftTeam, Vector<String> rightTeam, String type, Boolean win) {
         this.id = id;
         this.leftScore = leftScore;
         this.rightScore = rightScore;
@@ -26,7 +26,6 @@ public class Match {
         this.rightTeam = rightTeam;
         this.type = type;
         this.win = win;
-        this.loggedInRightTeam = loggedInRightTeam;
     }
 
     public Long getId() {
