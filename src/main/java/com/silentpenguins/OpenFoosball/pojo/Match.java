@@ -1,6 +1,7 @@
 package com.silentpenguins.OpenFoosball.pojo;
 
 import com.silentpenguins.OpenFoosball.model.User;
+
 import java.util.Vector;
 
 
@@ -12,10 +13,12 @@ public class Match {
     private Vector<String> rightTeam = new Vector<>();
     private String type;
     private Boolean win; //Easier to handle on frontend :)
+    private Boolean loggedInRightTeam;
 
-    public Match(){}
+    public Match() {
+    }
 
-    public Match(Long id, Integer leftScore, Integer rightScore, Vector<String> leftTeam, Vector<String> rightTeam, String type, Boolean win) {
+    public Match(Long id, Integer leftScore, Integer rightScore, Vector<String> leftTeam, Vector<String> rightTeam, String type, Boolean win, Boolean loggedInRightTeam) {
         this.id = id;
         this.leftScore = leftScore;
         this.rightScore = rightScore;
@@ -23,6 +26,7 @@ public class Match {
         this.rightTeam = rightTeam;
         this.type = type;
         this.win = win;
+        this.loggedInRightTeam = loggedInRightTeam;
     }
 
     public Long getId() {
@@ -85,5 +89,13 @@ public class Match {
 
     public void setWin(Boolean win) {
         this.win = win;
+    }
+
+    public Boolean isLoggedInRightTeam() {
+        return loggedInRightTeam;
+    }
+
+    public void setLoggedInRightTeam(Boolean loggedInRightTeam) {
+        this.loggedInRightTeam = loggedInRightTeam;
     }
 }
