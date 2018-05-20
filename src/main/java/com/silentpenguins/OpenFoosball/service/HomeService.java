@@ -7,17 +7,14 @@ import org.springframework.stereotype.Service;
 public class HomeService {
 
     @Autowired
-    PlayerListPageService playerListPageService;
+    InitDataBaseService initDataBaseService;
 
-    @Autowired
-    MatchHistoryService matchHistoryService;
-
-    @Autowired
-    ScoringPageService scoringPageService;
+    static boolean isInit = false;
 
     public void initDataBase() {
-        playerListPageService.initData();
-        matchHistoryService.initData();
-        scoringPageService.initScoring();
+        if(!isInit){
+            initDataBaseService.initDataBase();
+            isInit = true;
+        }
     }
 }

@@ -23,7 +23,6 @@ apply plugin: 'war'
 
 
 group = 'com.silentpenguins'
-//archivesBaseName = 'modelmapper-spring-boot-starter'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -42,7 +41,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.webjars:bootstrap:4.1.0')
 	compile('org.webjars:angularjs:1.6.9')
-	//compile('org.modelmapper:modelmapper:1.1.0')
+	compile 'com.github.rozidan:modelmapper-spring-boot-starter:1.0.0'
 	runtime('org.postgresql:postgresql')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

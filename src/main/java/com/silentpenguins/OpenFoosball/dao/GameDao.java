@@ -10,4 +10,8 @@ import java.util.Vector;
 @Repository
 public interface GameDao extends CrudRepository<Game, Long> {
     Vector<Game> findAll();
+    Vector<Game> findByLeftTeam_UserName(String userName);
+    Vector<Game> findByRightTeam_UserName(String userName);
+    Vector<Game> findByLeftTeam_UserNameAndConfirmed(String userName, boolean confirmed);
+    Vector<Game> findByRightTeam_UserNameAndConfirmed(String userName, boolean confirmed);
 }

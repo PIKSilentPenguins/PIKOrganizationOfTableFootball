@@ -13,7 +13,7 @@ public class Scoring {
 public class Scoring {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private Integer points;
     private String name;
     private Blob image;
@@ -26,11 +26,11 @@ public class Scoring {
         this.image = image;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,38 +1,35 @@
 package com.silentpenguins.OpenFoosball.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.silentpenguins.OpenFoosball.model.User;
 import java.util.Vector;
 
-@Entity
+
 public class Match {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private Integer leftScore;
     private Integer rightScore;
-    private Vector<String> leftTeam;
-    private Vector<String> rightTeam;
+    private Vector<String> leftTeam = new Vector<>();
+    private Vector<String> rightTeam = new Vector<>();
     private String type;
     private Boolean win; //Easier to handle on frontend :)
 
-    public Match(){
-        setLeftScore(3);
-        setRightScore(2);
-        setType("Training Match");
-        setWin(true);
-        setLeftTeam("MPUC,Marcin Puc");
-        setRightTeam("Wasiollo,Pointerrr");
+    public Match(){}
 
+    public Match(Long id, Integer leftScore, Integer rightScore, Vector<String> leftTeam, Vector<String> rightTeam, String type, Boolean win) {
+        this.id = id;
+        this.leftScore = leftScore;
+        this.rightScore = rightScore;
+        this.leftTeam = leftTeam;
+        this.rightTeam = rightTeam;
+        this.type = type;
+        this.win = win;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,25 +53,22 @@ public class Match {
         return leftTeam;
     }
 
-    public void setLeftTeam(String leftTeam) {
-        String[] team = leftTeam.split(",");
-        if (team.length != 2)
-            throw new IllegalArgumentException("String not in correct format");
+    public void setLeftTeam(Vector<User> leftTeam) {
 
-        this.leftTeam = new Vector<>();
-        this.leftTeam.add(team[0]);
-        this.leftTeam.add(team[1]);
+        this.leftTeam.clear();
+        this.leftTeam.add(leftTeam.get(0).getUserName());
+        this.leftTeam.add(leftTeam.get(1).getUserName());
     }
 
     public Vector<String> getRightTeam() {
         return rightTeam;
     }
 
-    public void setRightTeam(String rightTeam) {
-        String[] team = rightTeam.split(",");
-        this.rightTeam = new Vector<>();
-        this.rightTeam.add(team[0]);
-        this.rightTeam.add(team[1]);
+    public void setRightTeam(Vector<User> rightTeam) {
+
+        this.rightTeam.clear();
+        this.rightTeam.add(rightTeam.get(0).getUserName());
+        this.rightTeam.add(rightTeam.get(1).getUserName());
     }
 
     public String getType() {

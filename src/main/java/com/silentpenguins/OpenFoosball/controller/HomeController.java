@@ -1,8 +1,8 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 
-import com.silentpenguins.OpenFoosball.dao.PersonDao;
-import com.silentpenguins.OpenFoosball.model.Person;
+import com.silentpenguins.OpenFoosball.dao.UserDao;
+import com.silentpenguins.OpenFoosball.model.User;
 import com.silentpenguins.OpenFoosball.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +17,12 @@ public class HomeController {
     HomeService homeService;
 
     @Autowired
-    private PersonDao personDao;
+    private UserDao userDao;
 
     @RequestMapping("/")
     public String showHome() {
-        List<Person> people = (List<Person>) personDao.findAll();
-        for(Person p : people)
+        List<User> people = (List<User>) userDao.findAll();
+        for(User p : people)
             System.out.println(p.toString());
 
         homeService.initDataBase();

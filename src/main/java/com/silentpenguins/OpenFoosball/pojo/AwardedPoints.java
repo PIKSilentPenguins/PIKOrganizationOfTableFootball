@@ -1,24 +1,22 @@
 package com.silentpenguins.OpenFoosball.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.sql.Blob;
-
 
 public class AwardedPoints {
 
-    private Integer id;
+    private Long id;
     private Integer points;
     private String name;
     private Blob image;
 
-    public Integer getId() {
+    public AwardedPoints() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

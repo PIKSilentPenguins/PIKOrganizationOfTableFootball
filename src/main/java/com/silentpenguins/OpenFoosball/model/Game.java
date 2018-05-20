@@ -1,57 +1,68 @@
 package com.silentpenguins.OpenFoosball.model;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 @Entity
+@Table(name = "games")
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private Integer leftScore;
     private Integer rightScore;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_username", nullable = false)
-    private Person leftTeamPlayer1;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_username", nullable = false)
-    private Person leftTeamPlayer3;
+    @ManyToMany (fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable( name = "game_right_users", joinColumns = {@JoinColumn(name = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<User> rightTeam = new HashSet<>();
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_username", nullable = false)
-    private Person rightTeamPlayer1;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_username", nullable = false)
-    private Person rightTeamPlayer2;
+    @ManyToMany (fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable( name = "game_left_users", joinColumns = {@JoinColumn(name = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<User> leftTeam = new HashSet<>();
 
-    //private String leftTeamPlayer1;
-    //private String leftTeamPlayer2;
-   // private String rightTeamPlayer1;
-    //private String rightTeamPlayer2;
-    private String type;
+    @OneToOne
+    @JoinColumn(name = "scoring_id", nullable = false)
+    private Scoring scoring;
+
     private Boolean confirmed;
 
     public Game() {}
 
-    public Game(Integer leftScore, Integer rightScore, Person leftTeamPlayer1, Person leftTeamPlayer3, Person rightTeamPlayer1, Person rightTeamPlayer2, String type, Boolean confirmed) {
+    public Game(Integer leftScore, Integer rightScore, Set<User> rightTeam, Set<User> leftTeam, Scoring scoring, Boolean confirmed) {
         this.leftScore = leftScore;
         this.rightScore = rightScore;
-        this.leftTeamPlayer1 = leftTeamPlayer1;
-        this.leftTeamPlayer3 = leftTeamPlayer3;
-        this.rightTeamPlayer1 = rightTeamPlayer1;
-        this.rightTeamPlayer2 = rightTeamPlayer2;
-        this.type = type;
+        this.rightTeam = rightTeam;
+        this.leftTeam = leftTeam;
+        this.scoring = scoring;
         this.confirmed = confirmed;
     }
 
-    public Integer getId() {
+    public Set<User> getRightTeam() {
+        return rightTeam;
+    }
+
+    public void setRightTeam(Set<User> rightTeam) {
+        this.rightTeam = rightTeam;
+    }
+
+    public Set<User> getLeftTeam() {
+        return leftTeam;
+    }
+
+    public void setLeftTeam(Set<User> leftTeam) {
+        this.leftTeam = leftTeam;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -71,44 +82,12 @@ public class Game {
         this.rightScore = rightScore;
     }
 
-    public Person getLeftTeamPlayer1() {
-        return leftTeamPlayer1;
+    public Scoring getScoring() {
+        return scoring;
     }
 
-    public void setLeftTeamPlayer1(Person leftTeamPlayer1) {
-        this.leftTeamPlayer1 = leftTeamPlayer1;
-    }
-
-    public Person getLeftTeamPlayer3() {
-        return leftTeamPlayer3;
-    }
-
-    public void setLeftTeamPlayer3(Person leftTeamPlayer3) {
-        this.leftTeamPlayer3 = leftTeamPlayer3;
-    }
-
-    public Person getRightTeamPlayer1() {
-        return rightTeamPlayer1;
-    }
-
-    public void setRightTeamPlayer1(Person rightTeamPlayer1) {
-        this.rightTeamPlayer1 = rightTeamPlayer1;
-    }
-
-    public Person getRightTeamPlayer2() {
-        return rightTeamPlayer2;
-    }
-
-    public void setRightTeamPlayer2(Person rightTeamPlayer2) {
-        this.rightTeamPlayer2 = rightTeamPlayer2;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setScoring(Scoring scoring) {
+        this.scoring = scoring;
     }
 
     public Boolean getConfirmed() {

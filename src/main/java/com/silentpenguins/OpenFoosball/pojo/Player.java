@@ -4,7 +4,7 @@ import java.sql.Blob;
 
 
 public class Player {
-    private Integer id;
+    private Long id;
     private String userName;
     private Blob profileImage;
     private String firstName;
@@ -13,15 +13,7 @@ public class Player {
     private Integer matches;
     private Integer points;
 
-    public Player(){
-        setId(1);
-        setUserName("Marcin Puc");
-        setFirstName("Marcin");
-        setLastName("Puc");
-        setWins(100);
-        setMatches(300);
-        setPoints(170);
-    }
+    public Player(){}
 
     public Player( String userName, Blob profileImage, String firstName, String lastName, Integer wins, Integer matches, Integer points) {
         this.userName = userName;
@@ -89,11 +81,11 @@ public class Player {
         this.points = points;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
