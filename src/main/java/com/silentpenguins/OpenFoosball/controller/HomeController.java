@@ -25,7 +25,7 @@ public class HomeController {
         for(User p : people)
             System.out.println(p.toString());
 
-        homeService.initDataBase();
+        //homeService.initDataBase();
 
         return "home";
     }
