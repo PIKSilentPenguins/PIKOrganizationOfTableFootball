@@ -7,10 +7,7 @@ import com.silentpenguins.OpenFoosball.service.UserService;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Vector;
@@ -19,6 +16,7 @@ import java.util.logging.Logger;
 
 
 @Controller
+@RequestMapping("/new_match")
 public class NewMatchController {
 
     private static final Logger logger = Logger.getLogger(NewMatchController.class.getName());
@@ -29,7 +27,7 @@ public class NewMatchController {
     @Autowired
     LoginService loginService;
 
-    @RequestMapping("/new_match")
+    @RequestMapping("")
     public String showNewMatch(Map<String, Object> model, @RequestParam(value = "player", required = false) String requestedPlayerUsername) {
         Player logged_player = new Player();
 
@@ -49,14 +47,15 @@ public class NewMatchController {
         return "new_match";
     }
 
-    @PostMapping("/new_match/create_match")
-    public Response createMatch(Map<String, Object> model, @RequestBody NewMatchRQ newMatchRQ) {
+    @PostMapping("/create_match")
+    public Response createMatch(@RequestBody NewMatchRQ newMatchRQ) {
         logger.log(Level.WARNING, newMatchRQ.getPlayer_one_your_team() +
                 newMatchRQ.getPlayer_two_your_team() +
                 newMatchRQ.getPlayer_one_opponent_team() +
                 newMatchRQ.getPlayer_two_opponen_team() +
                 newMatchRQ.getCurrentTeamValue() +
                 newMatchRQ.getOpponentTeamValue());
+
         return new Response();
     }
 }
