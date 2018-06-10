@@ -18,40 +18,46 @@
 
 <body ng-app="mymodal" style="padding-top: 40px;">
 <div class="content">
-    <div ng-controller="MainCtrl">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/login">OpenFoosball Login Page</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
-    <form th:action="@{/login}" method="post">
-        <div class="container" style="padding-top: 30px">
-            <div class="row text-white">
-                <div class="col-md-2">
-                    <label> User Name : </label>
+    <div ng-controller="LoginController">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="/login">OpenFoosball Login Page</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <form th:action="@{/login}" method="post">
+            <div class="container" style="padding-top: 30px">
+                <div class="row text-white">
+                    <div class="col-md-2">
+                        <label> User Name : </label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" placeholder="Username" name="username" width="100%"/>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <input type="text" placeholder="Username" name="username" width="100%"/>
+                <div class="row text-white">
+                    <div class="col-md-2">
+                        <label> Password : </label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="password" placeholder="Password" name="password" width="100%"/>
+                    </div>
+                </div>
+                <div class="control-group" style="padding-left: 15px">
+                    <!-- Button -->
+                    <div class="controls">
+                        <button class="btn btn-success">Login</button>
+                    </div>
                 </div>
             </div>
-            <div class="row text-white">
-                <div class="col-md-2">
-                    <label> Password : </label>
-                </div>
-                <div class="col-md-10">
-                    <input type="password" placeholder="Password" name="password" width="100%"/>
-                </div>
-            </div>
-            <div class="control-group">
-                <!-- Button -->
-                <div class="controls">
-                    <button class="btn btn-success">Login</button>
-                </div>
+        </form>
+
+        <div class="container" style="padding-top: 10px">
+            <div style="padding-left:15px">
+                <button ng-click="toggleRegisterModal()" class="btn btn-primary">Register</button>
             </div>
         </div>
-    </form>
 
         <div th:if="${param.logout}">
             <modal id="logoutModal" visible="true">
@@ -75,23 +81,90 @@
             </modal>
         </div>
 
+        <register-modal id="registerModal" visible="showRegisterModal">
+            <form role="form">
+                <div class="form-group">
+                    <label for="registerLogin">Login</label>
+                    <input class="form-control" id="registerLogin" placeholder="Enter login" required=""/>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" class="form-control" id="registerPassword" placeholder="Password" required=""/>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password" required=""/>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" required=""/>
+                </div>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input class="form-control" id="firstName" placeholder="Enter first name" required=""/>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input class="form-control" id="lastName" placeholder="Enter last name" required=""/>
+                </div>
+                <button type="submit" class="btn btn-success" style="float: right;" ng-click="registerPlayer()">Register</button>
+            </form>
+        </register-modal>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <!-- TODO Stupidest part ^^^^^^ ever check to do how to avoid it xD-->
 
-    <!-- Footer -->
-    <div th:include="footer"></div>
-    <!-- Footer --->
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <!-- TODO Stupidest part ^^^^^^ ever check to do how to avoid it xD-->
+
+        <!-- Footer -->
+        <div th:include="footer"></div>
+        <!-- Footer --->
     </div>
 </div>
 <script>
     var mymodal = angular.module('mymodal', []);
 
-    mymodal.controller('MainCtrl', function ($scope) {
-        $scope.modalTitle = "Warning";
+    mymodal.controller('LoginController', ['$scope', '$http', function ($scope, $http) {
+    $scope.modalTitle = "Warning";
+        $scope.registerModalTitle = "Register";
+        $scope.showRegisterModal =false;
+        $scope.toggleRegisterModal = function () {
+            $scope.showRegisterModal = !$scope.showRegisterModal;
+        };
+        $scope.successRegistration =function(){
+          $("#registerModal").modal('hide');
+          alert("Zarejstrowano pomyślnie");
+        };
 
-    });
+        $scope.errorRegistration =function(){
+            alert("Nie można było zarejestrować");
+        };
+        function databaseRegistration (login, password, email, firstName, lastName) {
+            $http.post('/register', {"login": login,
+                "password": password,
+                "email": email,
+                "firstName": firstName,
+                "lastName": lastName
+            }).then($scope.successRegistration, $scope.errorRegistration);
+        }
+        $scope.registerPlayer = function () {
+            var login = document.getElementById("registerLogin").value;
+            var password = document.getElementById("registerPassword").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var email = document.getElementById("email").value;
+            var emailValidity = document.getElementById("email").validity.valid;
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            console.log(emailValidity);
+            if(password !== confirmPassword) {
+                alert('Passwords Not Matching!');
+            }
+            else {
+                console.log("login "+login+" password "+password+" confirmPassword "+confirmPassword+" email "+email+ " firstName "+firstName+" lastName "+lastName);
+                databaseRegistration(login, password, email, firstName, lastName);
+            }
+        };
+    }]);
 
     mymodal.directive('modal', function () {
         return {
@@ -100,6 +173,48 @@
             '<div class="modal-content">' +
             '<div class="modal-header">' +
             '<h4 class="modal-title">{{ modalTitle }}</h4>' +
+            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+            '</div>' +
+            '<div class="modal-body" ng-transclude></div>' +
+            '</div>' +
+            '</div>' +
+            '</div>',
+            restrict: 'E',
+            transclude: true,
+            replace: true,
+            scope: true,
+            link: function postLink(scope, element, attrs) {
+                scope.title = attrs.title;
+
+                scope.$watch(attrs.visible, function (value) {
+                    if (value == true)
+                        $(element).modal('show');
+                    else
+                        $(element).modal('hide');
+                });
+
+                $(element).on('shown.bs.modal', function () {
+                    scope.$apply(function () {
+                        scope.$parent[attrs.visible] = true;
+                    });
+                });
+
+                $(element).on('hidden.bs.modal', function () {
+                    scope.$apply(function () {
+                        scope.$parent[attrs.visible] = false;
+                    });
+                });
+            }
+        };
+    });
+
+    mymodal.directive('registerModal', function () {
+        return {
+            template: '<div class="modal fade">' +
+            '<div class="modal-dialog">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<h4 class="modal-title">{{ registerModalTitle }}</h4>' +
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
             '</div>' +
             '<div class="modal-body" ng-transclude></div>' +
