@@ -3,11 +3,13 @@ package com.silentpenguins.OpenFoosball.service;
 import com.silentpenguins.OpenFoosball.converters.GameToMatch;
 import com.silentpenguins.OpenFoosball.dao.GameDao;
 import com.silentpenguins.OpenFoosball.model.Game;
+import com.silentpenguins.OpenFoosball.model.User;
 import com.silentpenguins.OpenFoosball.pojo.Match;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.Vector;
 
 @Service
@@ -40,6 +42,7 @@ public class GameService {
         Optional<Game> game = gameDao.findById(id);
         if(game.isPresent()) {
             game.get().setConfirmed(true);
+            calculatePoints(game.get());
         }
         gameDao.save(game.get());
     }
@@ -61,5 +64,36 @@ public class GameService {
                     m.setWin(true);
             }
         });
+    }
+
+    private void calculatePoints(Game game){
+        int points = game.getScoring().getPoints();
+        if(game.getLeftScore() > game.getRightScore()){
+            updateWinningTeam(game.getLeftTeam(), points);
+            updateLosingTeam(game.getRightTeam(), points);
+        }
+        else if ( game.getLeftScore() < game.getRightScore()){
+            updateWinningTeam(game.getRightTeam(), points);
+            updateLosingTeam(game.getLeftTeam(), points);
+        }
+        else {
+            updateWinningTeam(game.getRightTeam(), points);
+            updateWinningTeam(game.getLeftTeam(), points);
+        }
+    }
+
+    private void updateWinningTeam(Set<User> winningTeam, int points){
+        for ( User player : winningTeam ) {
+            player.setPoints(player.getPoints() + points);
+            player.setMatches(player.getMatches() + 1);
+            player.setWins(player.getWins() + 1);
+        }
+    }
+
+    private void updateLosingTeam(Set<User> losingTeam, int points){
+        for ( User player : losingTeam ) {
+            player.setPoints(player.getPoints() - points);
+            player.setMatches(player.getMatches() + 1);
+        }
     }
 }

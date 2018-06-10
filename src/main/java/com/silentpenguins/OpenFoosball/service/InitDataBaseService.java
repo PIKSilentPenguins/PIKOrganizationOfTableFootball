@@ -97,7 +97,7 @@ public class InitDataBaseService {
 
         for(int i  = 0 ; i < 10 ; ++i) {
             Game game1 = new Game();
-            game1.setScoring(scoringDao.findByName("Training"));
+            game1.setScoring(scoringDao.findByName("Regular"));
 
             if( (i%2) == 0){
                 User player = userDao.findByUserName("admin");
