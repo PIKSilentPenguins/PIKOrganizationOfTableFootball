@@ -53,14 +53,13 @@
                                     <div class="row">
                                         <label for='select_player_one_your_team' class="card-text">Player 1:</label>
                                         <br>
-                                        <select id='select_player_one_your_team' class="select2_class" name="state" ng-value="logged_player.username" data-ng-model="t1p1.selected" ng-options="player for player in username_vector ">
-                                            <option value="mpuc">mpuc</option>
+                                        <select id='select_player_one_your_team' class="select2_class" name="state" ng-model="loggedPlayer" ng-options="player.username for player in username_vector">
                                         </select>
                                     </div>
                                     <div class="row">
                                         <label for='select_player_two_your_team' class="card-text">Player 2:</label>
                                         <br>
-                                        <select id='select_player_two_your_team' class="select2_class" name="state"  data-ng-model="t1p2.selected" ng-options="player for player in username_vector ">
+                                        <select id='select_player_two_your_team' class="select2_class" name="state" ng-model="t1p2" ng-options="player.username for player in username_vector ">
                                         </select>
                                     </div>
 
@@ -74,16 +73,15 @@
 
                                 <div class="col-md-5">
                                     <div class="row">
-                                        <label for='select_player_one_opponent_team' class="card-text float-right">Player
-                                            1:</label>
+                                        <label for='select_player_one_opponent_team' class="card-text float-right">Player 1:</label>
                                         <br>
-                                        <select id='select_player_one_opponent_team' class="float-right select2_class"  name="state"  ng-value="requested_player.username"  data-ng-model="t2p1.selected" ng-options="player for player in username_vector ">
+                                        <select id='select_player_one_opponent_team' class="float-right select2_class"  name="state" ng-model="requestedPlayer" ng-options="player.username for player in username_vector ">
                                         </select>
                                     </div>
                                     <div class="row">
                                         <label for='select_player_two_opponent_team' class="card-text">Player 2:</label>
                                         <br>
-                                        <select id='select_player_two_opponent_team' class="select2_class" name="state" data-ng-model="t2p2.selected" ng-options="player for player in username_vector ">
+                                        <select id='select_player_two_opponent_team' class="select2_class" name="state" ng-model="t2p2" ng-options="player.username for player in username_vector ">
                                         </select>
                                     </div>
                                 </div>
@@ -120,6 +118,16 @@
 
     </div>
 </div>
+<script th:inline="javascript">
+    var dataLayer = [];
+</script>
+<script th:each="user: ${players_vector}" th:inline="javascript">
+    dataLayer.push({'username': [[${user.getUserName()}]]});
+</script>
+<script th:inline="javascript">
+    console.log(dataLayer); // do whatever you want with dataLayer...
+</script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $(".select2_class").select2({
@@ -131,9 +139,6 @@
 
         $("#select_player_one_your_team").select2("enable",false);
 
-        /*$.each([[${username_vector}]], function (index, value) {
-            console.log(value.stringify());
-        });*/
 
 
     });
@@ -145,30 +150,26 @@
 
     mymodal.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
 
-        $scope.logged_player = { username: "[[${logged_player}]]" };
+        $scope.logged_player = "[[${logged_player}]]";
+        $scope.requested_player = "[[${requested_player}]]";
 
-        $scope.username_vector = "[[${username_vector}]]";
+        $scope.username_vector = dataLayer;
         console.log($scope.username_vector);
-        /*angular.forEach($scope.username_vector, function (value, key) {
-            console.log(value);
-        });*/
 
-        var requested_player = /*"[[requested_player]]"*/ 'null';
-        if(requested_player !=='null')
-            $scope.requested_player = { username: requested_player};
-        else
-            $scope.requested_player = { username: ""};
-        $scope.t1p1 = {};
+        $scope.loggedPlayer= $scope.username_vector[$scope.logged_player];
+        $scope.requestedPlayer = $scope.username_vector[$scope.requested_player];
+
+
         $scope.t1p2 = {};
-        $scope.t2p1 = {};
         $scope.t2p2 = {};
-        $scope.player = {};
+
 
         $scope.create_request = function (){
-            var p1t1 = document.getElementById("select_player_one_your_team").value;
-            var p2t1 = document.getElementById("select_player_two_your_team").value;
-            var p1t2 = document.getElementById("select_player_one_opponent_team").value;
-            var p2t2 = document.getElementById("select_player_two_opponent_team").value;
+            var p1t1 = $scope.loggedPlayer;
+            var p2t1 = $scope.t1p2;
+            var p1t2 = $scope.requestedPlayer;
+            var p2t2 = $scope.t2p2;
+
             var currentTeamValue = document.getElementById("current_team_score").value;
             var opponentTeamValue = document.getElementById("opponent_team_score").value;
             console.log(p1t1);
@@ -195,14 +196,6 @@
             console.log("errjor");
         };
 
-
-        $scope.players = [
-            { username: '' },
-            { username: 'mpuc' },
-            { username: 'user' },
-            { username: 'Wasiollo' },
-            { username: 'YOYOYOY' }
-            ];
 
     }]);
 

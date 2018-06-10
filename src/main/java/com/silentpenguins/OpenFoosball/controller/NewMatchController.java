@@ -36,13 +36,14 @@ public class NewMatchController {
         }
 
         Vector<Player> playerVector = this.userService.getAllPlayersOrderByUserName();
-        Vector<String> usernameVector = new Vector<>();
-        for(Player player : playerVector){
-            usernameVector.add(player.getUserName());
+
+        for(int i = 0 ; i <playerVector.size() ; ++i){
+            if(playerVector.elementAt(i).getUserName().equals(loginService.getCurrentUserName()))
+                model.put("logged_player", i);
+            if(playerVector.elementAt(i).getUserName().equals(requestedPlayerUsername))
+                model.put("requested_player",i);
         }
-        model.put("username_vector", usernameVector);
-        model.put("logged_player", loginService.getCurrentUserName());
-        model.put("players_vector", userService.getAllPlayersOrderByUserName());
+        model.put("players_vector", playerVector);
 
         return "new_match";
     }
