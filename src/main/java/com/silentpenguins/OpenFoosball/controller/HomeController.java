@@ -13,8 +13,8 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    @Autowired
-    HomeService homeService;
+    //@Autowired
+    //HomeService homeService;
 
     @Autowired
     private UserDao userDao;
@@ -24,8 +24,6 @@ public class HomeController {
         List<User> people = (List<User>) userDao.findAll();
         for(User p : people)
             System.out.println(p.toString());
-
-        homeService.initDataBase();
 
         return "home";
     }

@@ -6,10 +6,13 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name="user", schema="OpenFoosball")
+@Table(name="myusers")
 public class MyUser implements Serializable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name="username", unique = true,
             nullable = false, length = 45)
     private String username;
@@ -23,15 +26,22 @@ public class MyUser implements Serializable{
     @Column(name ="userrole", nullable = false)
     private String role;
 
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "myUser")
+    private User userProfile;
+
     public String getRoleString() {
         return role;
     }
 
-    public MyUser(String username, String password, String role) {
+    public MyUser(String username, String password, boolean enabled, String role) {
         this.username = username;
         this.password = password;
+        this.enabled = enabled;
         this.role = role;
     }
+
     public MyUser(){}
 
     public String getUsername() {
@@ -58,4 +68,27 @@ public class MyUser implements Serializable{
         this.enabled = enabled;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public User getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(User userProfile) {
+        this.userProfile = userProfile;
+    }
 }

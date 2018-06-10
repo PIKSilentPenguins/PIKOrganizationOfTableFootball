@@ -1,6 +1,8 @@
 package com.silentpenguins.OpenFoosball.service;
 
+import com.silentpenguins.OpenFoosball.dao.MyUserDao;
 import com.silentpenguins.OpenFoosball.model.MyUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,6 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Autowired
+    MyUserDao myUserDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -26,8 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private MyUser findUserbyUsername(String username) {
-        if(username.equalsIgnoreCase("admin")) {
-            return new MyUser(username, "admin", "ADMIN");
+        if(username.equalsIgnoreCase(username)) {
+            return myUserDao.findByUsername(username);
         }
         return null;
     }

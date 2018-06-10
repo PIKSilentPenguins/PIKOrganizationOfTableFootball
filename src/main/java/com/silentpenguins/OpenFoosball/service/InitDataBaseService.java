@@ -1,9 +1,11 @@
 package com.silentpenguins.OpenFoosball.service;
 
 import com.silentpenguins.OpenFoosball.dao.GameDao;
+import com.silentpenguins.OpenFoosball.dao.MyUserDao;
 import com.silentpenguins.OpenFoosball.dao.UserDao;
 import com.silentpenguins.OpenFoosball.dao.ScoringDao;
 import com.silentpenguins.OpenFoosball.model.Game;
+import com.silentpenguins.OpenFoosball.model.MyUser;
 import com.silentpenguins.OpenFoosball.model.User;
 import com.silentpenguins.OpenFoosball.model.Scoring;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import java.util.Vector;
 
 @Service
 public class InitDataBaseService {
+
+    @Autowired
+    MyUserDao myUserDao;
 
     @Autowired
     UserDao userDao;
@@ -25,13 +30,46 @@ public class InitDataBaseService {
 
     void initPerson() {
         for(int i =0 ; i< 10 ; ++i){
-            userDao.save(new User("mdo"+i, null, "Marcin", "Puc", 0, 10000, 0));
-            userDao.save(new User("ptr"+i, null, "Piotr", "Komorowski", 50, 100, 150));
-            userDao.save(new User("mati"+i, null, "Mateusz", "Plesinski", 10000, 10000, 10000000));
-            userDao.save(new User("wasiollo"+i, null, "Mateusz", "Wasiak", 900, 1000, 2700));
+            User mdo = new User("mdo"+i, null, "Marcin", "Puc", 0, 10000, 0);
+            User ptr = new User("ptr"+i, null, "Piotr", "Komorowski", 50, 100, 150);
+            User mati = new User("mati"+i, null, "Mateusz", "Plesinski", 10000, 10000, 10000000);
+            User was = new User("wasiollo"+i, null, "Mateusz", "Wasiak", 900, 1000, 2700);
+
+            MyUser myMdo = new MyUser(mdo.getUserName(),mdo.getFirstName(), true, "USER" );
+            MyUser myPtr = new MyUser(ptr.getUserName(), ptr.getFirstName(), true, "USER" );
+            MyUser myMati = new MyUser(mati.getUserName(),mati.getFirstName(), true, "USER" );
+            MyUser myWas = new MyUser(was.getUserName(), was.getFirstName(), true, "USER" );
+
+            myMdo.setUserProfile(mdo);
+            mdo.setMyUser(myMdo);
+
+            myUserDao.save(myMdo);
+
+            myMati.setUserProfile(mati);
+            mati.setMyUser(myMati);
+
+            myUserDao.save(myMati);
+
+            myPtr.setUserProfile(ptr);
+            ptr.setMyUser(myPtr);
+
+            myUserDao.save(myPtr);
+
+            myWas.setUserProfile(was);
+            was.setMyUser(myWas);
+
+            myUserDao.save(myWas);
 
         }
-        userDao.save(new User("user", null, "Mateusz", "Plesinski", 10000, 10000, 10000000));
+        User user = new User("admin", null, "Mateusz", "Plesinski", 10000, 10000, 10000000);
+        MyUser myUser = new MyUser("admin","admin", true, "ADMIN" );
+
+        myUser.setUserProfile(user);
+        user.setMyUser(myUser);
+
+
+        myUserDao.save(myUser);
+
 
     }
 
@@ -62,7 +100,7 @@ public class InitDataBaseService {
             game1.setScoring(scoringDao.findByName("Training"));
 
             if( (i%2) == 0){
-                User player = userDao.findByUserName("user");
+                User player = userDao.findByUserName("admin");
 
                 if( player != null){
                     game1.getLeftTeam().add(player);
@@ -90,7 +128,7 @@ public class InitDataBaseService {
                 }
             }
             else {
-                User player = userDao.findByUserName("user");
+                User player = userDao.findByUserName("admin");
 
                 if( player != null){
                     game1.getRightTeam().add(player);

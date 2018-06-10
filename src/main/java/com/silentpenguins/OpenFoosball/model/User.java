@@ -29,6 +29,10 @@ public class User {
     private Integer matches;
     private Integer points;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "myuser_id"/*, nullable = false*/)
+    private MyUser myUser;
+
     @ManyToMany (fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "rightTeam")
     private Set<Game> rightGames = new HashSet<>();
 
@@ -139,5 +143,11 @@ public class User {
         this.leftGames = leftGames;
     }
 
+    public MyUser getMyUser() {
+        return myUser;
+    }
 
+    public void setMyUser(MyUser myUser) {
+        this.myUser = myUser;
+    }
 }
