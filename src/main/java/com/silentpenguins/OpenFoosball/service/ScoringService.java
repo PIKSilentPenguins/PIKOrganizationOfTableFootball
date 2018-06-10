@@ -1,22 +1,26 @@
 package com.silentpenguins.OpenFoosball.service;
 
+import com.silentpenguins.OpenFoosball.converters.ScoringToAwardedPoints;
 import com.silentpenguins.OpenFoosball.dao.ScoringDao;
 import com.silentpenguins.OpenFoosball.model.Scoring;
+import com.silentpenguins.OpenFoosball.pojo.AwardedPoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Vector;
 
 @Service
 public class ScoringService {
 
     @Autowired
-    public ScoringDao scoringDao;
+    ScoringToAwardedPoints scoringToAwardedPoints;
 
-    public List<Scoring> findAll() {
+    @Autowired
+    ScoringDao scoringDao;
 
-        List<Scoring> scorings = (List<Scoring>) scoringDao.findAll();
-
-        return scorings;
+    public Vector<AwardedPoints> getAllAwardedPoints(){
+        return scoringToAwardedPoints.convertVector(scoringDao.findAllByOrderByPoints());
     }
+
+
 }

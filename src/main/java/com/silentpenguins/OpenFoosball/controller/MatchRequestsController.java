@@ -1,68 +1,56 @@
 package com.silentpenguins.OpenFoosball.controller;
 
 import com.silentpenguins.OpenFoosball.pojo.Match;
+import com.silentpenguins.OpenFoosball.service.GameService;
+import com.silentpenguins.OpenFoosball.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
+@RequestMapping("/match_requests")
 public class MatchRequestsController {
 
-    @RequestMapping("/match_requests")
-    public String showMatchRequests(Map<String, Object> model, @RequestParam(value="acceppt", required=false) String accepptedMatch) {
+    @Autowired
+    GameService gameService;
 
+    @Autowired
+    LoginService loginService;
 
-        //TODO setowanie z bazy do matchVector. Należy wybrać tylko zalogowanego Usera - pewnie będzie Autowirowany :)
-        //TODO get z bazy taki, by Match był do akceptacji. W przypadku parametru trzeba będzie dodać setowanie na bazie
-        //TODO parametru, że już został zaakceptowany, wydaje mi sie, że nie powinno wgle to być tak robione, ale chwilowo
-        //TODO niech będzie tak. - pewnie tak jak tu: https://spring.io/guides/tutorials/bookmarks/
-        Vector<Match> matchVector = new Vector<>();
-        for(int i =0 ; i< 10 ; ++i){
-            Match match1 = new Match();
-            match1.setId(1+i*4); // Niech będzie setowany z bazy.
+    private static final Logger logger = Logger.getLogger(MatchRequestsController.class.getName());
 
-            Match match2 = new Match();
-            match2.setId(2+i*4);
-            match2.setWin(true);
-            match2.setType("Tournament Match");
-            match2.setLeftScore(5);
-            match2.setRightScore(0);
-            match2.setLeftTeam("Marcin Puc,Tom Olek");
-            match2.setRightTeam("Wasiollo,Pointer");
+    Vector<Match> matchVector = new Vector<>();
 
-            Match match3 = new Match();
-            match3.setId(3+i*4);
-            match3.setWin(false);
-            match3.setType("Regular Match");
-            match3.setLeftScore(3);
-            match3.setRightScore(1);
-            match3.setLeftTeam("Pointer,Tom Olek");
-            match3.setRightTeam("Wasiollo,Marcin Puc");
+    @GetMapping("")
+    @PostMapping("")
+    public String showMatchRequests(Map<String, Object> model) {
 
-            Match match4 = new Match();
-            match4.setId(4+i*4);
-            match4.setWin(true);
-            match4.setType("Tournament Match");
-            match4.setLeftScore(1);
-            match4.setRightScore(7);
-            match4.setLeftTeam("Rododendron,Tom Olek");
-            match4.setRightTeam("Wasiollo,Marcin Puc");
+        matchVector.clear();
 
+        logger.log(Level.INFO, "match_request.html visited"); // TODO jakieś inne logi.
 
-            matchVector.add(match1);
-            matchVector.add(match2);
-            matchVector.add(match3);
-            matchVector.add(match4);
-        }
-        if(accepptedMatch!=null) {
-            matchVector.remove(new Integer(accepptedMatch) - 1);
-            System.out.println(new Integer(accepptedMatch) - 1);
-        }
+        matchVector = gameService.getMatchesToAccept(loginService.getCurrentUserName());
         model.put("matchVector", matchVector);
 
+        return "match_requests";
+    }
+
+    @GetMapping("/accept_request/{acceptedMatch}")
+    public String acceptMatch(Map<String, Object> model, HttpServletRequest req, @PathVariable String acceptedMatch) {
+
+        if (acceptedMatch != null) {
+            matchVector.removeIf(match -> Objects.equals(match.getId(), new Long(acceptedMatch)));
+            gameService.acceptMatch(Long.parseLong(acceptedMatch));
+
+        }
+        model.put("matchVector", matchVector);
         return "match_requests";
     }
 }

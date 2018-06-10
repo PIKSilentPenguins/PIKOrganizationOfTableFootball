@@ -2,8 +2,13 @@ package com.silentpenguins.OpenFoosball.dao;
 
 import com.silentpenguins.OpenFoosball.model.Scoring;
 
-import java.util.List;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ScoringDao {
-    public List<Scoring> findAll();
+import java.util.Vector;
+
+@Repository
+public interface ScoringDao  extends CrudRepository<Scoring,Long> {
+    Vector<Scoring> findAllByOrderByPoints();
+    Scoring findByName(String name);
 }

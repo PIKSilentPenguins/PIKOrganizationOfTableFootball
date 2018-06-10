@@ -1,34 +1,62 @@
 package com.silentpenguins.OpenFoosball.controller;
 
+import com.silentpenguins.OpenFoosball.pojo.NewMatchRQ;
 import com.silentpenguins.OpenFoosball.pojo.Player;
+import com.silentpenguins.OpenFoosball.service.LoginService;
+import com.silentpenguins.OpenFoosball.service.UserService;
+import org.apache.catalina.connector.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 @Controller
+@RequestMapping("/new_match")
 public class NewMatchController {
 
-    @RequestMapping("/new_match")
-    public String showNewMatch(Map<String, Object> model, @RequestParam(value="player", required=false) String requestedPlayerUsername) {
+    private static final Logger logger = Logger.getLogger(NewMatchController.class.getName());
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    LoginService loginService;
+
+    @RequestMapping("")
+    public String showNewMatch(Map<String, Object> model, @RequestParam(value = "player", required = false) String requestedPlayerUsername) {
         Player logged_player = new Player();
 
-        if (requestedPlayerUsername != null){
-            Player requested_player = new Player();
-            requested_player.setFirstName("Tom");
-            requested_player.setLastName("Wally");
-            requested_player.setWins(20);
-            requested_player.setMatches(21);
-            requested_player.setUserName(requestedPlayerUsername);
-            requested_player.setPoints(20);
-            model.put("requested_player", requested_player);
-
-            //TODO zmodyfikować, żeby to było setowane z bazy w zależności od username :)
+        if (requestedPlayerUsername != null) {
+            model.put("requested_player", requestedPlayerUsername);
         }
 
+        Vector<Player> playerVector = this.userService.getAllPlayersOrderByUserName();
 
-        model.put("logged_player", logged_player);
+        for(int i = 0 ; i <playerVector.size() ; ++i){
+            if(playerVector.elementAt(i).getUserName().equals(loginService.getCurrentUserName()))
+                model.put("logged_player", i);
+            if(playerVector.elementAt(i).getUserName().equals(requestedPlayerUsername))
+                model.put("requested_player",i);
+        }
+        model.put("players_vector", playerVector);
+
         return "new_match";
+    }
+
+    @PostMapping("/create_match")
+    public Response createMatch(@RequestBody NewMatchRQ newMatchRQ) {
+        logger.log(Level.WARNING, newMatchRQ.getPlayer_one_your_team() +
+                newMatchRQ.getPlayer_two_your_team() +
+                newMatchRQ.getPlayer_one_opponent_team() +
+                newMatchRQ.getPlayer_two_opponen_team() +
+                newMatchRQ.getCurrentTeamValue() +
+                newMatchRQ.getOpponentTeamValue());
+
+        return new Response();
     }
 }
