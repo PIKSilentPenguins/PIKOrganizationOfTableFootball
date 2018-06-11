@@ -53,4 +53,17 @@ public class MatchRequestsController {
         model.put("matchVector", matchVector);
         return "match_requests";
     }
+
+    @GetMapping("/decline_request/{declinedMatch}")
+    public String declineMatch(Map<String, Object> model, HttpServletRequest req, @PathVariable String declinedMatch) {
+
+        if (declinedMatch != null) {
+            matchVector.removeIf(match -> Objects.equals(match.getId(), new Long(declinedMatch)));
+            gameService.declineMatch(Long.parseLong(declinedMatch));
+
+        }
+        model.put("matchVector", matchVector);
+        return "match_requests";
+    }
+
 }

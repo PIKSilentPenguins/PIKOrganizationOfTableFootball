@@ -47,6 +47,10 @@ public class GameService {
         gameDao.save(game.get());
     }
 
+    public void declineMatch(long id){
+        //TODO REMOVE MATCH
+    }
+
     public void setMatchWin(Vector<Match> matches, String userName) {
         matches.forEach((m) -> {
             if(m.getLeftTeam().contains(userName)){

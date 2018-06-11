@@ -13,7 +13,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public String showLogin() {
-//        homeService.initDataBase();
+        homeService.initDataBase();
 
         return "login";
     }
