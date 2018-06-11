@@ -33,7 +33,7 @@ public class GameService {
 
     public Vector<Match> getMatchesToAccept(String userName){
         Vector<Match> matches = gameToMatch.convertVector(gameDao.findByRightTeam_UserNameAndConfirmed(userName, false));
-        matches.addAll(gameToMatch.convertVector(gameDao.findByLeftTeam_UserNameAndConfirmed(userName,true)));
+        matches.addAll(gameToMatch.convertVector(gameDao.findByLeftTeam_UserNameAndConfirmed(userName,false)));
         setMatchWin(matches, userName);
         return matches;
     }
@@ -48,7 +48,10 @@ public class GameService {
     }
 
     public void declineMatch(long id){
-        //TODO REMOVE MATCH
+        Optional<Game> game = gameDao.findById(id);
+        if(game.isPresent()){
+            gameDao.delete(game.get());
+        }
     }
 
     public void setMatchWin(Vector<Match> matches, String userName) {

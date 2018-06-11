@@ -11,6 +11,7 @@ public class OpenFoosballApplicationTests {
 
 	@Test
 	public void contextLoads() {
+
 	}
 
 }
