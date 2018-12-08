@@ -1,0 +1,50 @@
+import {Component, OnInit, Inject} from '@angular/core';
+import {Router} from '@angular/router';
+import {User} from '../model/user.model';
+import {ApiService} from '../core/api.service';
+
+@Component({
+  selector: 'app-list-user',
+  templateUrl: './list-user.component.html',
+  styleUrls: ['./list-user.component.scss']
+})
+export class ListUserComponent implements OnInit {
+
+  users: User[];
+
+  constructor(private router: Router, private apiService: ApiService) {
+  }
+
+  ngOnInit() {
+    if (!window.localStorage.getItem('token')) {
+      this.router.navigate(['login']);
+      return;
+    }
+    this.apiService.getUsers()
+      .subscribe(data => {
+        if (data.status === 200) {
+          this.users = data.result;
+        } else if (data.status === 401) {
+          window.localStorage.removeItem('token');
+          this.router.navigate(['login']);
+        }
+      });
+  }
+
+  deleteUser(user: User): void {
+    this.apiService.deleteUser(user.id)
+      .subscribe(() => {
+        this.users = this.users.filter(u => u !== user);
+      });
+  }
+
+  editUser(user: User): void {
+    window.localStorage.removeItem('editUserId');
+    window.localStorage.setItem('editUserId', user.id.toString());
+    this.router.navigate(['edit-user']);
+  }
+
+  registerUser(): void {
+    this.router.navigate(['register-user']);
+  }
+}

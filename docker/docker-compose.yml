@@ -1,0 +1,17 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:10
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: openfossball
+      POSTGRES_PASSWORD: openfossball
+      POSTGRES_USER: openfossball
+    ports:
+      - 5434:5432
+    volumes:
+      - openfossball_postgres:/var/lib/postgresql/openfossball/data
+
+volumes:
+  openfossball_postgres:
+    external: false

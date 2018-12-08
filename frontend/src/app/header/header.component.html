@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">OpenFossball</a>
+  <button class="navbar-toggler hidden-sm-up" type="button" (click)="toggleCollapsed()"
+          data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div [ngbCollapse]="collapsed" class="collapse navbar-collapse" id="navbarsDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle account-button" id="id01" ngbDropdownToggle></a>
+        <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="id01" ngbDropdownMenu>
+          <a class="dropdown-item text-light bg-dark" routerLink="logout-user">Your profile</a>  <!--TODO proper services-->
+          <a class="dropdown-item text-light bg-dark" routerLink="logout-user">Settings</a>
+          <a class="dropdown-item text-light bg-dark" routerLink="logout-user">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
