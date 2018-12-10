@@ -22,12 +22,7 @@ export class ListUserComponent implements OnInit {
     }
     this.apiService.getUsers()
       .subscribe(data => {
-        if (data.status === 200) {
-          this.users = data.result;
-        } else if (data.status === 401) {
-          window.localStorage.removeItem('token');
-          this.router.navigate(['login']);
-        }
+        this.users = data.result;
       });
   }
 
